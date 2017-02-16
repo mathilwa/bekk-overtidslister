@@ -19,4 +19,5 @@ src/frontend/public/dist/
 src/target/
 node_modules
 src/frontend/elm-stuff/
-
+design-guidelines
+npm-debug.log
