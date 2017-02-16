@@ -1,6 +1,12 @@
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const WebpackNotifierPlugin = require('webpack-notifier');
+
 module.exports = {
   // Our initial entry point for the app
-  entry: './public/index.js',
+  entry: [
+      './public/index.js',
+      './public/style/style.less'
+  ],
 
   // Where we output files
   output: {
@@ -37,12 +43,22 @@ module.exports = {
         test: /\.elm$/,
         exclude: [/elm-stuff/, /node_modules/],
         loader: 'elm-hot!elm-webpack'
+      },
+      {
+        test: /\.less$/,
+        loader: ExtractTextPlugin.extract('style-loader', 'css-loader?-url!autoprefixer?browsers=last 2 version!less-loader'),
       }
     ],
 
     // Don't try to parse elm files, because they will never `require` another module
     noParse: /\.elm$/
   },
+  plugins: [
+    new WebpackNotifierPlugin(),
+    new ExtractTextPlugin('main.bundle.css', {
+      allChunks: true
+    })
+  ],
 
   // Hey let's have a dev server
   devServer: {
